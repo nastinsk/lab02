@@ -10,9 +10,9 @@
 ## As a user, I want to view the images on the page so that I can browse the photo collection.
 ***
 * Estimate of time needed to complete: **3 hours**
-* Start time: _____
-* Finish time: _____
-* Actual time needed to complete: _____
+* Start time: 2pm
+* Finish time: 4pm
+* Actual time needed to complete: 2 hours
 
 
 # Feature #2: Filter Images
