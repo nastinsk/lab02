@@ -1,0 +1,28 @@
+
+*{
+    text-align: center;
+    margin: 1em auto;
+}
+
+section{
+    border: medium double grey;
+    border-radius: 5px;
+    float: left;
+    height: 500px;
+    width: 400px;
+    margin: 2em;
+    overflow-y: auto;
+}
+
+h2{
+    text-transform: capitalize;
+}
+
+img{
+    width: 300px;
+    padding: 0 1.5em;
+}
+
+footer{
+    clear: both;
+}

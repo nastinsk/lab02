@@ -36,6 +36,7 @@ ImgGallery.readJson = () => {
 
 ImgGallery.loadImg = () => {
   ImgGallery.allImages.forEach(img => img.render());
+  $('#photo-template').remove();
 };
 
 $(() => ImgGallery.readJson());
