@@ -8,6 +8,7 @@ function ImgGallery(img) {
   this.horns = img.horns;
 }
 ImgGallery.allImages = [];
+console.log(ImgGallery.allImages);
 
 ImgGallery.prototype.render = function(){
   $('main').append('<section class = "clone"></section>');
@@ -17,8 +18,8 @@ ImgGallery.prototype.render = function(){
 
   imgClone.html(photoHtml);
 
-  imgClone.find('h2').text(this.keyword);
-  imgClone.find('img').attr('src', this.imageUrl).attr('alt', this.keyword).attr('title', this.title);
+  imgClone.find('h2').text(this.title);
+  imgClone.find('img').attr('src', this.imageUrl).attr('alt', this.description).attr('title', this.title);
   imgClone.find('p').text(this.description);
   imgClone.removeClass('clone');
   imgClone.attr('class', this.keyword);
@@ -40,3 +41,38 @@ ImgGallery.loadImg = () => {
 };
 
 $(() => ImgGallery.readJson());
+
+
+
+/* Event Listener for Form */
+
+let options = [];
+ImgGallery.allImages.forEach(element,index => {
+    options.push(ImgGallery.allImages[index].keyword);
+
+
+
+    // for(let i = 0; i < ImgGallery.allImages.length; i++){
+        
+    //     if (options[i] === ImgGallery.allImages.keyword){
+    //         break;
+    //     } else{
+    //         options.push(ImgGallery.allImages.keyword);
+    //     }
+    // }
+    // $('select').append('option')
+});
+
+console.log(options);
+
+// forEach ImageGallery.allImages
+// if option does not exist then
+    // create new form option
+
+// add event listener for select option
+// add event handler that hides images without keyword
+
+
+
+
+
