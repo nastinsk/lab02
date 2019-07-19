@@ -1,5 +1,7 @@
 'use strict';
 
+let options = [];
+
 function ImgGallery(img) {
   this.imageUrl = img.image_url;
   this.title = img.title;
@@ -8,7 +10,6 @@ function ImgGallery(img) {
   this.horns = img.horns;
 }
 ImgGallery.allImages = [];
-console.log(ImgGallery.allImages);
 
 ImgGallery.prototype.render = function(){
   $('main').append('<section class = "clone"></section>');
@@ -31,8 +32,15 @@ ImgGallery.readJson = () => {
       data.forEach(item => {
         ImgGallery.allImages.push(new ImgGallery(item));
       });
+      
+      options.push(ImgGallery.allImages[0].keyword);
+      ImgGallery.allImages.forEach(function(item, i, arr){
+        if(options.includes(item.keyword) === false){
+          options.push(item.keyword);
+        }
+      })
     })
-    .then(ImgGallery.loadImg);
+  .then(ImgGallery.loadImg);
 };
 
 ImgGallery.loadImg = () => {
@@ -44,33 +52,6 @@ $(() => ImgGallery.readJson());
 
 
 
-/* Event Listener for Form */
-
-let options = [];
-ImgGallery.allImages.forEach(element,index => {
-    options.push(ImgGallery.allImages[index].keyword);
-
-
-
-    // for(let i = 0; i < ImgGallery.allImages.length; i++){
-        
-    //     if (options[i] === ImgGallery.allImages.keyword){
-    //         break;
-    //     } else{
-    //         options.push(ImgGallery.allImages.keyword);
-    //     }
-    // }
-    // $('select').append('option')
-});
-
-console.log(options);
-
-// forEach ImageGallery.allImages
-// if option does not exist then
-    // create new form option
-
-// add event listener for select option
-// add event handler that hides images without keyword
 
 
 
