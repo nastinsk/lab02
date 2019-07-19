@@ -32,15 +32,19 @@ ImgGallery.readJson = () => {
       data.forEach(item => {
         ImgGallery.allImages.push(new ImgGallery(item));
       });
-      
+
       options.push(ImgGallery.allImages[0].keyword);
-      ImgGallery.allImages.forEach(function(item, i, arr){
+      ImgGallery.allImages.forEach(function(item){
         if(options.includes(item.keyword) === false){
           options.push(item.keyword);
         }
       })
+      options.forEach(function(element){
+        $('select').append(`<option value = ${element}>${element}</option>`);
+      });
+
     })
-  .then(ImgGallery.loadImg);
+    .then(ImgGallery.loadImg);
 };
 
 ImgGallery.loadImg = () => {
