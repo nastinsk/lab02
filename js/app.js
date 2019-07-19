@@ -55,8 +55,15 @@ ImgGallery.loadImg = () => {
 $(() => ImgGallery.readJson());
 
 
-
-
+$('select').on('change', function() {
+  let selection = $(this).val();
+  if(selection === "default"){
+    $('section').show();
+  } else{
+    $('section').hide();
+    $(`section[class="${selection}"]`).show();
+  }
+});
 
 
 
