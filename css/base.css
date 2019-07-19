@@ -1,12 +1,14 @@
 
+/* https://www.color-hex.com/color-palette/59372 */
+
 *{
-    background-color: #eee;
-    color: #444;
+    background-color: #dcf98c;
     font-family: sans-serif;
     text-align: center;
     margin: 1em auto;
 }
 
+<<<<<<< Updated upstream
 section{
     border: medium double grey;
     border-radius: 1em;
@@ -51,3 +53,5 @@ p{
 footer{
     clear: both;
 }
+=======
+>>>>>>> Stashed changes
