@@ -69,6 +69,8 @@ ImgGallery.loadImg = () => {
 
 $(() => ImgGallery.readJson());
 
+//////////Second Feature//////////////
+
 //function to filter images by keyword
 $('#keywordForm').on('change', function() {
   let selection = $(this).val();
@@ -83,6 +85,7 @@ $('#keywordForm').on('change', function() {
   }
 });
 
+///////////Stretch goal //////////////
 
 //helper function
 function swap(array, i, j){
@@ -133,7 +136,7 @@ $('#sortByForm').on('change', function() {
     //render renewed allImages array on page
     ImgGallery.allImagesNewTitles.forEach(item => item.render());
   }
-  
+
 });
 
 
