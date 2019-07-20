@@ -1,6 +1,11 @@
 'use strict';
 
 let options = [];
+let options2 = [];
+
+let page2Arr = [];
+let page2ArrNew = [];
+let page2ArrNewTitles = [];
 
 //constructor function for creating images object instances
 function ImgGallery(img) {
@@ -46,6 +51,8 @@ ImgGallery.readJson = (page => {
         new ImgGallery(item);
       });
 
+      
+
       //pushing unique keywords to options array
       options.push(ImgGallery.allImages[0].keyword);
       ImgGallery.allImages.forEach(function(item){
@@ -55,9 +62,19 @@ ImgGallery.readJson = (page => {
       });
       //append options.array to the dropdown list
       options.forEach(function(element){
-        $('#keywordForm').append(`<option value = ${element}>${element}</option>`);
+        $('#keywordForm').append(`<option class ="one" value = ${element}>${element}</option>`);
       });
 
+      options2.push(page2Arr[0].keyword);
+      page2Arr.forEach(function(item){
+        if (options2.includes(item.keyword) === false){
+          options2.push(item.keyword);
+        }
+      });
+      options2.forEach(function(element){
+        $('#keywordForm').append(`<option class = "two" value = ${element}>${element}</option>`);
+        $('.two').hide();
+      });
     })
     .then(ImgGallery.loadImg);
 });
@@ -112,19 +129,29 @@ const sortingFunction = (arr, word) => {
   }
 };
 
+// page2Arr = [];
+// let page2ArrNew = [];
+// let page2ArrNewTitles = [];
 
 $('#sortByForm').on('change', function() {
   let selection = $(this).val();
 
   if(selection === 'default'){
     $('section').remove();
+
     ImgGallery.allImages.forEach(item => item.render());
+    page2Arr.forEach(newPage => {
+      $('#page2').append(newPage.toHtml());
+      $('#page2').hide();
+    });
+    
   }
 
   if (selection === 'byHorns') {
     $('section').remove();
 
-    sortingFunction(ImgGallery.allImagesNew, 'horns');
+    // sortingFunction(ImgGallery.allImagesNew, 'horns');
+    // sortingFunction(ImgGallery)
 
     //render renewed allImages array on page
     ImgGallery.allImagesNew.forEach(item => item.render());
@@ -152,11 +179,15 @@ var jsonData = JSON.parse(request.responseText);
 
 /* solution end */
 
-let page2Arr = [];
 
 function ImgGallery2 (rawData){
   for(let key in rawData){
     this[key] = rawData[key];
+
+    page2Arr.push(this);
+    page2ArrNew.push(this);
+    page2ArrNewTitles.push(this);
+
   }
 }
 
@@ -164,20 +195,33 @@ ImgGallery2.prototype.toHtml = function(){
   let template = $('#template').html();
   let templateRender = Handlebars.compile(template);
   return templateRender(this);
+
 };
 
 jsonData.forEach(jsonObject => {
-  page2Arr.push(new ImgGallery2(jsonObject));
+  new ImgGallery2(jsonObject);
 });
 
 page2Arr.forEach(newPage => {
   $('#page2').append(newPage.toHtml());
-})
+  $('#page2').hide();
+});
 
 console.log(page2Arr);
 
+$('button[value = page2Button]').on('click', function(){
+  $('#page2').show();
+  $('#page1').hide();
+  $('.one').hide();
+  $('.two').show();
+});
 
-
+$('button[value = page1Button]').on('click', function(){
+  $('#page1').show();
+  $('#page2').hide();
+  $('.two').hide();
+  $('.one').show();
+});
 
 
 
