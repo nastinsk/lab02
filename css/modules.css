@@ -1,8 +1,28 @@
 
 select{
+    cursor: pointer;
+    border-radius: .5em;
+    border: medium solid #2ac7a4;
+    color: #1d9279;
     background-color: #fff1b8;
     font-size: 1em;
     text-transform: capitalize;
+}
+
+ul{
+    margin: 0 8em;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+button{
+    cursor: pointer;
+    border-radius: 1em;
+    border: thick double #2ac7a4;
+    background: #fff1b8;
+    color: #1d9279;
+    padding: .5em 4em;
 }
 
 h2{
@@ -38,4 +58,11 @@ section:hover{
 
 img:hover{
     box-shadow: 0 0 1em black;
+}
+
+@media(max-width:595px){
+    ul{
+        margin: 0 auto;
+        flex-direction: column;
+    }
 }

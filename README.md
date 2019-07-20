@@ -49,9 +49,9 @@
 ## As a user, I want to have the ability to view additional images so that my view does not become cluttered.
 ***
 * Estimate of time needed to complete: **2 hours**
-* Start time: **______**
-* Finish time: **______**
-* Actual time needed to complete: **______**
+* Start time: **12pm**
+* Finish time: **3pm**
+* Actual time needed to complete: **1 hour, 30 minutes**
 ***
 
 
@@ -60,9 +60,9 @@
 ## As a user, I want all of the images to be displayed in a consistent manner, so that it is easy to scan the collection of images.
 ***
 * Estimate of time needed to complete: **2 hours**
-* Start time: **______**
-* Finish time: **______**
-* Actual time needed to complete: **______**
+* Start time: **12pm**
+* Finish time: **3pm**
+* Actual time needed to complete: **1 hour, 30 minutes**
 ***
 
 
@@ -71,9 +71,9 @@
 ## As a user, I want a simple, clean looking UI so that my photo gallery clearly displays the images.
 ***
 * Estimate of time needed to complete: **2 hours**
-* Start time: **______**
-* Finish time: **______**
-* Actual time needed to complete: **______**
+* Start time: **3pm**
+* Finish time: **3:15pm**
+* Actual time needed to complete: **15 minutes**
 ***
 
 
@@ -82,7 +82,7 @@
 ## As a user, I want to be able to sort the images so that there is an order to their rendering.
 ***
 * Estimate of time needed to complete: **2 hours**
-* Start time: **______**
+* Start time: **3pm**
 * Finish time: **______**
 * Actual time needed to complete: **______**
 ***
