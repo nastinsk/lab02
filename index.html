@@ -10,6 +10,15 @@
     <link href="css/base.css" type="text/css" rel="stylesheet">
     <link href="css/layout.css" type="text/css" rel="stylesheet">
     <link href="css/modules.css" type="text/css" rel="stylesheet">
+    <script id="template" type="text/x-handlebars-template">
+      <section>
+      <h2>{{title}}</h2>
+      <img src="{{image_url}}" alt="{{description}}" title="{{title}}">
+      <p>{{description}}
+        <br> Amount of Horns: {{horns}}
+      </p>
+      </section>
+    </script>
   </head>
   <body>
     <header>
@@ -18,19 +27,21 @@
         <option value="default">Sort by:</option>
           <option value="byTitle">Title</option>
           <option value="byHorns">Number of horns</option>
-
       </select>
       <select id = "keywordForm">
         <option value="default">Filter by Keyword</option>
       </select> 
-      
+      <nav></nav>
     </header>
     <main>
+      <article id="page1"></article>
+      <article id="page2"></article>
     </main>
     <footer>
       &copy; 2019 Code Fellows
     </footer>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <script src = "js/app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.js"></script>
+    <script src="js/app.js"></script>
   </body>
 </html>
