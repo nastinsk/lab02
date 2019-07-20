@@ -25,7 +25,7 @@ ImgGallery.allImagesNewTitles = [];
 
 //method to render imgs in sections to the DOM
 ImgGallery.prototype.render = function(){
-  $('main').append('<section class = "clone"></section>');
+  $('#page1').append('<section class = "clone"></section>');
   let imgClone = $('section[class="clone"]');
 
   imgClone.append('<h2></h2>', '<img>', '<p>');
@@ -38,8 +38,8 @@ ImgGallery.prototype.render = function(){
 };
 
 //function to take data from page-1.json
-ImgGallery.readJson = () => {
-  $.get('data/page-1.json', 'json')
+ImgGallery.readJson = (page => {
+  $.get(`data/${page}.json`, 'json')
     .then(data => {
       //creating new object instances with data from json file
       data.forEach(item => {
@@ -60,14 +60,15 @@ ImgGallery.readJson = () => {
 
     })
     .then(ImgGallery.loadImg);
-};
+});
 //load all images to gallery
 ImgGallery.loadImg = () => {
   ImgGallery.allImages.forEach(img => img.render());
 
 };
 
-$(() => ImgGallery.readJson());
+$(() => ImgGallery.readJson('page-1'));
+// $(() => ImgGallery.readJson('page-2'));
 
 //////////Second Feature//////////////
 
@@ -139,6 +140,45 @@ $('#sortByForm').on('change', function() {
   }
 
 });
+
+
+/* got solution from here: https://stackoverflow.com/questions/16991341/json-parse-file-path */
+
+var request = new XMLHttpRequest();
+request.open('GET','data/page-2.json', false);
+request.send(null);
+var jsonData = JSON.parse(request.responseText);
+// console.log(jsonData);
+
+/* solution end */
+
+let page2Arr = [];
+
+function ImgGallery2 (rawData){
+  for(let key in rawData){
+    this[key] = rawData[key];
+  }
+}
+
+ImgGallery2.prototype.toHtml = function(){
+  let template = $('#template').html();
+  let templateRender = Handlebars.compile(template);
+  return templateRender(this);
+};
+
+jsonData.forEach(jsonObject => {
+  page2Arr.push(new ImgGallery2(jsonObject));
+});
+
+page2Arr.forEach(newPage => {
+  $('#page2').append(newPage.toHtml());
+})
+
+console.log(page2Arr);
+
+
+
+
 
 
 
