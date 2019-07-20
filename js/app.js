@@ -4,8 +4,6 @@ let options = [];
 let options2 = [];
 
 let page2Arr = [];
-let page2ArrNew = [];
-let page2ArrNewTitles = [];
 
 //constructor function for creating images object instances
 function ImgGallery(img) {
@@ -129,29 +127,19 @@ const sortingFunction = (arr, word) => {
   }
 };
 
-// page2Arr = [];
-// let page2ArrNew = [];
-// let page2ArrNewTitles = [];
 
 $('#sortByForm').on('change', function() {
   let selection = $(this).val();
 
   if(selection === 'default'){
     $('section').remove();
-
     ImgGallery.allImages.forEach(item => item.render());
-    page2Arr.forEach(newPage => {
-      $('#page2').append(newPage.toHtml());
-      $('#page2').hide();
-    });
-    
   }
 
   if (selection === 'byHorns') {
     $('section').remove();
 
-    // sortingFunction(ImgGallery.allImagesNew, 'horns');
-    // sortingFunction(ImgGallery)
+    sortingFunction(ImgGallery.allImagesNew, 'horns');
 
     //render renewed allImages array on page
     ImgGallery.allImagesNew.forEach(item => item.render());
@@ -183,11 +171,6 @@ var jsonData = JSON.parse(request.responseText);
 function ImgGallery2 (rawData){
   for(let key in rawData){
     this[key] = rawData[key];
-
-    page2Arr.push(this);
-    page2ArrNew.push(this);
-    page2ArrNewTitles.push(this);
-
   }
 }
 
@@ -195,11 +178,10 @@ ImgGallery2.prototype.toHtml = function(){
   let template = $('#template').html();
   let templateRender = Handlebars.compile(template);
   return templateRender(this);
-
 };
 
 jsonData.forEach(jsonObject => {
-  new ImgGallery2(jsonObject);
+  page2Arr.push(new ImgGallery2(jsonObject));
 });
 
 page2Arr.forEach(newPage => {
