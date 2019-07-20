@@ -95,6 +95,7 @@ function swap(array, i, j){
 }
 
 //helper function to rearrange sections on the page
+// adapted from http://blog.benoitvallon.com with Ahren Swett and Yang Song help
 const sortingFunction = (arr, word) => {
   for(let i = 0; i < arr.length; i++) {
     let min = i;
