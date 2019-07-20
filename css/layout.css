@@ -1,8 +1,14 @@
+
+article{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+}
+
 section{
     background-color: #fff1b8;
-    border: medium double #2ac7a4;
+    border: thick double #2ac7a4;
     border-radius: 1em;
-    display: inline-block;
     height: 500px;
     width: 400px;
     margin: 2em;
