@@ -1,211 +1,227 @@
 'use strict';
 
+//arrays that will store object instances for both pages
+let pageArr = [];
+let pageArrBackup = [];
+
 let options = [];
 let options2 = [];
 
-let page2Arr = [];
-
-//constructor function for creating images object instances
-function ImgGallery(img) {
-  this.imageUrl = img.image_url;
-  this.title = img.title;
-  this.description = img.description;
-  this.keyword = img.keyword;
-  this.horns = img.horns;
-
-  ImgGallery.allImages.push(this);
-  ImgGallery.allImagesNew.push(this);
-  ImgGallery.allImagesNewTitles.push(this);
-
-}
-//array that will store all img objects from json file
-//it wil be our back up array
-ImgGallery.allImages = [];
-
-//they will be our arrays where our values will be sorted
-ImgGallery.allImagesNew = [];
-ImgGallery.allImagesNewTitles = [];
-
-//method to render imgs in sections to the DOM
-ImgGallery.prototype.render = function(){
-  $('#page1').append('<section class = "clone"></section>');
-  let imgClone = $('section[class="clone"]');
-
-  imgClone.append('<h2></h2>', '<img>', '<p>');
-
-  imgClone.find('h2').text(this.title);
-  imgClone.find('img').attr('src', this.imageUrl).attr('alt', this.description).attr('title', this.title);
-  imgClone.find('p').html(`${this.description} </br> Amount of Horns: ${this.horns}`);
-  imgClone.removeClass('clone');
-  imgClone.attr('class', this.keyword);
-};
-
-//function to take data from page-1.json
-ImgGallery.readJson = (page => {
-  $.get(`data/${page}.json`, 'json')
-    .then(data => {
-      //creating new object instances with data from json file
-      data.forEach(item => {
-        new ImgGallery(item);
-      });
-
-      
-
-      //pushing unique keywords to options array
-      options.push(ImgGallery.allImages[0].keyword);
-      ImgGallery.allImages.forEach(function(item){
-        if(options.includes(item.keyword) === false){
-          options.push(item.keyword);
-        }
-      });
-      //append options.array to the dropdown list
-      options.forEach(function(element){
-        $('#keywordForm').append(`<option class ="one" value = ${element}>${element}</option>`);
-      });
-
-      options2.push(page2Arr[0].keyword);
-      page2Arr.forEach(function(item){
-        if (options2.includes(item.keyword) === false){
-          options2.push(item.keyword);
-        }
-      });
-      options2.forEach(function(element){
-        $('#keywordForm').append(`<option class = "two" value = ${element}>${element}</option>`);
-        $('.two').hide();
-      });
-    })
-    .then(ImgGallery.loadImg);
-});
-//load all images to gallery
-ImgGallery.loadImg = () => {
-  ImgGallery.allImages.forEach(img => img.render());
-
-};
-
-$(() => ImgGallery.readJson('page-1'));
-// $(() => ImgGallery.readJson('page-2'));
-
-//////////Second Feature//////////////
-
-//function to filter images by keyword
-$('#keywordForm').on('change', function() {
-  let selection = $(this).val();
-
-  if(selection === 'default'){
-    $('section').show();
-  }
-
-  else{
-    $('section').hide();
-    $(`section[class="${selection}"]`).show();
-  }
-});
-
-///////////Stretch goal //////////////
-
-//helper function
-function swap(array, i, j){
-  let temp = array[i];
-  array[i] = array[j];
-  array[j] = temp;
-}
-
-//helper function to rearrange sections on the page
-// adapted from http://blog.benoitvallon.com with Ahren Swett and Yang Song help
-const sortingFunction = (arr, word) => {
-  for(let i = 0; i < arr.length; i++) {
-    let min = i;
-    for(let j = i + 1; j < arr.length; j++) {
-      if(arr[j][word] < arr[min][word]) {
-        min = j;
-      }
-    }
-
-    if(i !== min) {
-      swap(arr, i, min);
-    }
-  }
-};
-
-
-$('#sortByForm').on('change', function() {
-  let selection = $(this).val();
-
-  if(selection === 'default'){
-    $('section').remove();
-    ImgGallery.allImages.forEach(item => item.render());
-  }
-
-  if (selection === 'byHorns') {
-    $('section').remove();
-
-    sortingFunction(ImgGallery.allImagesNew, 'horns');
-
-    //render renewed allImages array on page
-    ImgGallery.allImagesNew.forEach(item => item.render());
-  }
-
-  if(selection === 'byTitle'){
-    $('section').remove();
-
-    sortingFunction(ImgGallery.allImagesNewTitles, 'title');
-
-    //render renewed allImages array on page
-    ImgGallery.allImagesNewTitles.forEach(item => item.render());
-  }
-
-});
-
-
 /* got solution from here: https://stackoverflow.com/questions/16991341/json-parse-file-path */
 
-var request = new XMLHttpRequest();
-request.open('GET','data/page-2.json', false);
-request.send(null);
-var jsonData = JSON.parse(request.responseText);
-// console.log(jsonData);
+///////function to parse data from json to proper format
+function jsonParse(filePath) {
+  let request = new XMLHttpRequest();
+  request.open('GET', filePath, false);
+  request.send(null);
+  return JSON.parse(request.responseText);
+}
+////////envoking jsonParse function for both files
+let jsonDataFirstPage = jsonParse('../data/page-1.json');
+let jsonDataSecondPage = jsonParse('../data/page-2.json');
 
-/* solution end */
 
-
-function ImgGallery2 (rawData){
-  for(let key in rawData){
+//constructor function for object instances
+function Section(rawData) {
+  for (let key in rawData) {
     this[key] = rawData[key];
   }
+
+  pageArr.push(this);
+  pageArrBackup.push(this);
 }
 
-ImgGallery2.prototype.toHtml = function(){
+/////prototype to connect our data with handlebars template
+Section.prototype.toHtml = function () {
   let template = $('#template').html();
   let templateRender = Handlebars.compile(template);
   return templateRender(this);
 };
 
-jsonData.forEach(jsonObject => {
-  page2Arr.push(new ImgGallery2(jsonObject));
+/////////////////////////creating new object instances with json-1.json and json-2.json data for first page and second page
+jsonDataFirstPage.forEach(jsonObject => {
+  new Section(jsonObject);
+
 });
 
-page2Arr.forEach(newPage => {
-  $('#page2').append(newPage.toHtml());
+jsonDataSecondPage.forEach(jsonObject => {
+  new Section(jsonObject);
+
+});
+///////////////////////////////////
+
+//////////////////////rendering all objects from pageArray and page2Array to the page
+for (let i = 0; i < pageArr.length / 2; i++) {
+  $('#page1').append(pageArr[i].toHtml());
+}
+for (let i = pageArr.length / 2; i < pageArr.length; i++) {
+  $('#page2').append(pageArr[i].toHtml());
   $('#page2').hide();
+}
+//////////////////////////////////////////
+
+
+/////////////////////adding uniqe keywords to drop down list for 2 pages
+//pushing unique keywords to options array
+
+jsonDataFirstPage.forEach(function (item) {
+  if (options.includes(item.keyword) === false) {
+    options.push(item.keyword);
+  }
+});
+//append options.array to the dropdown list
+options.forEach(function (element) {
+  $('#keywordForm').append(`<option class ="one" value = ${element}>${element}</option>`);
 });
 
-console.log(page2Arr);
+//pushing unique keywords to options2 array
 
-$('button[value = page2Button]').on('click', function(){
+jsonDataSecondPage.forEach(function (item) {
+  if (options2.includes(item.keyword) === false) {
+    options2.push(item.keyword);
+  }
+});
+//append options2.array to the dropdown list
+options2.forEach(function (element) {
+  $('#keywordForm').append(`<option class ="two" value = ${element}>${element}</option>`);
+  $('option[class = two]').hide();
+});
+//////////////////////////////////////
+
+////////////////////event handlers for the click on page 1 and 2
+$('button[value = page2Button]').on('click', function () {
   $('#page2').show();
   $('#page1').hide();
-  $('.one').hide();
-  $('.two').show();
+  $('option[class = one]').hide();
+  $('option[class = two]').show();
+  $('button[value = page1Button]').css('background', '#fff1b8');
+  $('button[value = page2Button]').css('background', 'rgb(255, 255,255)');
 });
 
-$('button[value = page1Button]').on('click', function(){
+$('button[value = page1Button]').on('click', function () {
   $('#page1').show();
   $('#page2').hide();
-  $('.two').hide();
-  $('.one').show();
+  $('option[class = two]').hide();
+  $('option[class = one]').show();
+  $('button[value = page2Button]').css('background', '#fff1b8');
+  $('button[value = page1Button]').css('background', 'rgb(255, 255,255)');
+});
+////////////////////////////////////////////
+
+////////////////////////event handler to filter images by keyword
+$('#keywordForm').on('change', function () {
+  let selection = $(this).val();
+
+  if (selection === 'default') {
+    $('section').show();
+  }
+
+  else {
+    $('section').hide();
+    $(`section[class="${selection}"]`).show();
+  }
 });
 
+/////////////////////////////////////
 
+//////////////event handler for sorting all images
+$('#sortByForm').on('change', function () {
+  let selection = $(this).val();
+  if (selection === 'default') {
+    if ($('button[value="page1Button"]').css('background-color') === 'rgb(255, 255, 255)') {
 
+      $('section').remove();
+      for (let i = 0; i < pageArrBackup.length / 2; i++) {
+        $('#page1').append(pageArrBackup[i].toHtml());
+      }
+      for (let i = pageArrBackup.length / 2; i < pageArrBackup.length; i++) {
+        $('#page2').append(pageArrBackup[i].toHtml());
+        $('#page2').hide();
+      }
+    }
 
+    else {
 
+      $('section').remove();
+      for (let i = 0; i < pageArrBackup.length / 2; i++) {
+        $('#page1').append(pageArrBackup[i].toHtml());
+        $('#page1').hide();
+      }
+      for (let i = pageArrBackup.length / 2; i < pageArrBackup.length; i++) {
+        $('#page2').append(pageArrBackup[i].toHtml());
+
+      }
+    }
+  }
+
+////////////sorting by title
+  if (selection === 'byTitle') {
+
+    pageArr.sort(function (a, b) {
+      var x = a.title.toLowerCase();
+      var y = b.title.toLowerCase();
+      if (x < y) { return -1; }
+      if (x > y) { return 1; }
+      return 0;
+    });
+
+    if ($('button[value="page1Button"]').css('background-color') === 'rgb(255, 255, 255)') {
+      $('section').remove();
+      for (let i = 0; i < pageArr.length / 2; i++) {
+        $('#page1').append(pageArr[i].toHtml());
+      }
+      for (let i = pageArr.length / 2; i < pageArr.length; i++) {
+        $('#page2').append(pageArr[i].toHtml());
+        $('#page2').hide();
+      }
+    }
+
+    else {
+      $('section').remove();
+      for (let i = 0; i < pageArr.length / 2; i++) {
+        $('#page1').append(pageArr[i].toHtml());
+        $('#page1').hide();
+      }
+
+      for (let i = pageArr.length / 2; i < pageArr.length; i++) {
+        $('#page2').append(pageArr[i].toHtml());
+      }
+    }
+  }
+
+  ////////////sorting by horns
+  if (selection === 'byHorns') {
+
+    pageArr.sort(function (a, b) {
+      var x = a.horns;
+      var y = b.horns;
+      if (x < y) { return -1; }
+      if (x > y) { return 1; }
+      return 0;
+    });
+
+    if ($('button[value="page1Button"]').css('background-color') === 'rgb(255, 255, 255)') {
+      $('section').remove();
+      for (let i = 0; i < pageArr.length / 2; i++) {
+        $('#page1').append(pageArr[i].toHtml());
+      }
+      for (let i = pageArr.length / 2; i < pageArr.length; i++) {
+        $('#page2').append(pageArr[i].toHtml());
+        $('#page2').hide();
+      }
+    }
+
+    else {
+      $('section').remove();
+      for (let i = 0; i < pageArr.length / 2; i++) {
+        $('#page1').append(pageArr[i].toHtml());
+        $('#page1').hide();
+      }
+
+      for (let i = pageArr.length / 2; i < pageArr.length; i++) {
+        $('#page2').append(pageArr[i].toHtml());
+      }
+    }
+  }
+
+});
