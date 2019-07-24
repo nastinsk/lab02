@@ -26,8 +26,8 @@ function jsonParse(filePath) {
   return JSON.parse(request.responseText);
 }
 // ////////envoking jsonParse function for both files
-let jsonDataFirstPage= jsonParse('data/page-1.json');
-let jsonDataSecondPage = jsonParse('data/page-2.json');
+let jsonDataFirstPage= jsonParse('/data/page-1.json');
+let jsonDataSecondPage = jsonParse('/data/page-2.json');
 
 
 //constructor function for object instances
