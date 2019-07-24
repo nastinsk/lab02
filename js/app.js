@@ -9,6 +9,15 @@ let options2 = [];
 
 /* got solution from here: https://stackoverflow.com/questions/16991341/json-parse-file-path */
 
+// let jsonDataFirstPage = [];
+// $.getJSON("../data/page-1.json", function(json) {
+//   json.forEach(function(element){
+//     jsonDataFirstPage.push(element);
+//   });
+  
+// });
+
+
 ///////function to parse data from json to proper format
 function jsonParse(filePath) {
   let request = new XMLHttpRequest();
@@ -16,9 +25,9 @@ function jsonParse(filePath) {
   request.send(null);
   return JSON.parse(request.responseText);
 }
-////////envoking jsonParse function for both files
-let jsonDataFirstPage = jsonParse('../data/page-1.json');
-let jsonDataSecondPage = jsonParse('../data/page-2.json');
+// ////////envoking jsonParse function for both files
+let jsonDataFirstPage= jsonParse('../../data/page-1.json');
+let jsonDataSecondPage = jsonParse('../../data/page-2.json');
 
 
 //constructor function for object instances
@@ -41,11 +50,13 @@ Section.prototype.toHtml = function () {
 /////////////////////////creating new object instances with json-1.json and json-2.json data for first page and second page
 jsonDataFirstPage.forEach(jsonObject => {
   new Section(jsonObject);
+  console.log(1);
 
 });
 
 jsonDataSecondPage.forEach(jsonObject => {
   new Section(jsonObject);
+  console.log(2);
 
 });
 ///////////////////////////////////
