@@ -9,15 +9,6 @@ let options2 = [];
 
 /* got solution from here: https://stackoverflow.com/questions/16991341/json-parse-file-path */
 
-// let jsonDataFirstPage = [];
-// $.getJSON("../data/page-1.json", function(json) {
-//   json.forEach(function(element){
-//     jsonDataFirstPage.push(element);
-//   });
-  
-// });
-
-
 ///////function to parse data from json to proper format
 function jsonParse(filePath) {
   let request = new XMLHttpRequest();
@@ -165,7 +156,7 @@ $('#sortByForm').on('change', function () {
     }
   }
 
-////////////sorting by title
+  ////////////sorting by title
   if (selection === 'byTitle') {
 
     pageArr.sort(function (a, b) {
