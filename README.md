@@ -84,5 +84,5 @@
 * Estimate of time needed to complete: **2 hours**
 * Start time: **3pm**
 * Finish time: **______**
-* Actual time needed to complete: **______**
+* Actual time needed to complete: **6hours**
 ***
